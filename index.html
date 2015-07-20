@@ -1,0 +1,95 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Page Template</title>
+        <script type="text/javascript" src="../d3/d3.min.js"></script>
+        <style>
+
+        body {
+          background-color: #809AAC;
+        }
+
+        .bar {
+          border: 1px solid #1D4A69;
+        }
+
+        .bar:hover {
+          /*fill: url(#Gradient-1);*/
+          fill: red;
+          border: 1px solid #1D4A69;
+        }
+
+        </style>
+    </head>
+
+    <body>
+        <script type="text/javascript">
+
+        window.onload = function () { RunD3(); }
+
+        function DoShowValue(d)
+        {
+           document.getElementById("divDisplay").innerHTML = d;
+        }
+
+        function DoClearValue(d)
+        {
+           document.getElementById("divDisplay").innerHTML = '&nbsp;';
+        }
+
+        function RunD3()
+        {
+          //d3.csv("data/food.csv", function(error, myData) { console.log("Back from get"); console.log(error); console.log(myData);})
+          var dataset = GetDataset();
+
+          var w = 500;
+          var h = 200;
+          var barPadding = 1
+          var transitionFactor = 20;
+          var labelXAdj = 4;
+
+          var s = d3.scale.linear().domain([0, d3.max(dataset)]).range([0, h]);
+
+          var divDisplayDyn = d3.select("body").append("div").attr("innerText", "testing");
+          var svg = d3.select("body").append("svg").attr("width", w).attr("height", h).attr("border",1);
+
+          var bars = svg.selectAll("rect").data(dataset).enter().append("rect");
+
+          bars
+            .attr("class","bar")
+            .attr("fill", function(d) { return "rgb(0,0," + (d * 10) + ")"; })
+            .attr("x", function(d,i) { return i * ( w / dataset.length ); })
+            .attr("y", function (d) { return h - s(d); })
+            .attr("width", function(d) { return ( w / dataset.length ) - barPadding; })
+            .transition()
+            .delay(function(d,i) { return i * transitionFactor; })
+            .duration(transitionFactor)
+            .ease("bounce")
+            .attr("height", function(d) { return s(d); })
+            ;
+
+          bars.on("mouseover", DoShowValue);
+          bars.on("mouseout", DoClearValue);
+
+          var labels = svg.selectAll("text").data(dataset).enter().append("text");
+
+          labels
+            .text(function(d) { return d; })
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "10px")
+            .attr("fill", "white")
+            .attr("x", function(d,i) { return ( i * ( w / dataset.length ) ) + labelXAdj; })
+            .attr("y", function (d) { return h - s(d) + 12; })
+            ;
+        }
+
+        function GetDataset()
+        {
+          var dataset = [ 5, 10, 15, 20, 25, 23, 19, 17, 15, 13, 9, 8, 4, 6, 10, 14, 11, 15, 25, 23, 19, 17, 15, 8, 4, 6, 10, 19 ];
+          return dataset;
+        }
+
+        </script>
+        <div id="divDisplay">[values]<div>
+    </body>
+</html>
