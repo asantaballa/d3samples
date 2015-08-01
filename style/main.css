@@ -1,0 +1,18 @@
+body {
+  background-color: #809AAC;
+}
+
+.bar {
+  border: 1px solid #1D4A69;
+}
+
+.bar:hover {
+  /*fill: url(#Gradient-1);*/
+  fill: red;
+  border: 1px solid #1D4A69;
+}
+
+h1 {
+    color: navy;
+    margin-left: 20px;
+}
