@@ -1,0 +1,42 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="./d3/d3.min.js"></script>
+    <title>D3 Barchardt CSV</title>
+    <link rel="stylesheet" type="text/css" href="./style/main.css">
+</head>
+
+    <body>
+        <script type="text/javascript">
+
+        window.onload = function () { RunD3(); }
+
+        function DoShowValue(d)
+        {
+           document.getElementById("divDisplay").innerHTML = d;
+        }
+
+        function DoClearValue(d)
+        {
+           document.getElementById("divDisplay").innerHTML = '&nbsp;';
+        }
+
+        function RunD3()
+        {
+          //d3.csv("data/food.csv", function(error, myData) { console.log("Back from get"); console.log(error); console.log(myData);})
+          var dataset = GetDataset();
+
+        }
+
+        function GetDataset()
+        {
+          d3.csv("data/pigeonracing.csv", function(data) {
+              console.log(data[0]);
+          });
+        //   return dataset;
+        }
+
+        </script>
+        <div id="divDisplay">[values]<div>
+    </body>
+</html>
